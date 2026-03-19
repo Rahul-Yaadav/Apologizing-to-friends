@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise | Prachi 🐱‍👤</title>
+    <style>
+        :root { --pink: #ff4d6d; --light: #fff0f3; --dark: #2c3e50; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--dark); transition: 0.5s; overflow: hidden; height: 100vh; }
+
+        .section { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100vh;
+            display: none; justify-content: center; align-items: center; 
+            padding: 20px; box-sizing: border-box; opacity: 0; 
+        }
+        .active { display: flex !important; opacity: 1 !important; z-index: 10; }
+
+        .card { 
+            background: white; padding: 25px; border-radius: 25px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center; 
+            width: 100%; max-width: 380px; border: 2px solid #ffcad4;
+        }
+
+        .nav-btn {
+            position: fixed; bottom: 40px; right: 40px;
+            background: var(--pink); color: white; border: none; 
+            padding: 15px 35px; border-radius: 50px; cursor: pointer; 
+            font-weight: bold; z-index: 1000; display: none;
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.4);
+        }
+
+        .mem-img { width: 100%; height: 180px; object-fit: contain; border-radius: 15px; background: #fdfdfd; margin: 10px 0; }
+        input[type=range] { width: 100%; margin: 20px 0; accent-color: var(--pink); cursor: pointer; }
+
+        .cake-container { position: relative; width: 120px; height: 100px; margin: 25px auto; cursor: pointer; }
+        .flame { width: 16px; height: 22px; background: orange; border-radius: 50%; position: absolute; top: -18px; left: 44%; box-shadow: 0 0 10px orange; animation: flick 0.1s infinite alternate; }
+        @keyframes flick { from { transform: scale(1); } to { transform: scale(1.2); } }
+        .cake-body { width: 120px; height: 80px; background: #f191ac; border-radius: 10px 10px 0 0; position: absolute; bottom: 0; }
+
+        #infinite-area { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: white; overflow-y: scroll; z-index: 2000; }
+        .fixed-forgive-btn { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #27ae60; color: white; border: none; padding: 18px 45px; border-radius: 50px; font-weight: bold; font-size: 18px; cursor: pointer; z-index: 3000; }
+
+        #mega-celeb { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: white; z-index: 4000; justify-content: center; align-items: center; flex-direction: column; text-align: center; }
+    </style>
+</head>
+<body id="main-body">
+
+    <div class="section active" id="sec-1">
+        <div class="card">
+            <h1 id="mood-h">Angry Mode 😡</h1>
+            <p>Gussa thanda karne ke liye switch karein!</p>
+            <input type="checkbox" id="m-toggle" onchange="startApp()" style="transform: scale(3); margin: 30px; cursor: pointer;">
+        </div>
+    </div>
+
+    <div class="section" id="sec-2">
+        <div class="card">
+            <div style="font-size: 40px; font-weight: bold; color: var(--pink);" id="y-val">2023</div>
+            <img src="" id="m-img" class="mem-img">
+            <p id="m-txt" style="min-height: 60px; font-size: 14px; color: #555;"></p>
+            <input type="range" id="m-slider" min="0" max="3" value="0" oninput="updateMem(this.value)">
+        </div>
+        <button class="nav-btn" id="to-cake" onclick="goNext(3)">Celebrate? 🎆🎈</button>
+    </div>
+
+    <div class="section" id="sec-3">
+        <div class="card">
+            <h2>Make a Wish, Bauni! ✨</h2>
+            <div class="cake-container" onclick="blowOut()">
+                <div class="flame" id="flm"></div>
+                <div class="cake-body"></div>
+            </div>
+            <p>Candle bhujane ke liye tap kar!</p>
+        </div>
+    </div>
+
+    <div class="section" id="sec-4">
+        <div class="card">
+            <h2>Dosti Restore? 🤝</h2>
+            <p>Itni mehnat ke baad maaf karde?</p>
+            <button onclick="startMegaCeleb()" style="background:#27ae60; color:white; border:none; padding:15px; width:90%; border-radius:30px; margin:10px; font-weight:bold; cursor:pointer;">Haan, Maaf kiya! 😊</button>
+            <button onclick="startInfinite()" style="background:#c0392b; color:white; border:none; padding:15px; width:90%; border-radius:30px; margin:10px; font-weight:bold; cursor:pointer;">Nahi, abhi gussa hoon! 😡</button>
+        </div>
+    </div>
+
+    <div id="infinite-area">
+        <div style="position: sticky; top: 0; background: white; padding: 20px; text-align: center; border-bottom: 2px solid var(--pink);">
+            <h2 style="color:var(--pink); margin: 0;">Infinite Sorry Hu!</h2>
+        </div>
+        <div id="scroll-list" style="padding-bottom: 120px;"></div>
+        <button class="fixed-forgive-btn" onclick="startMegaCeleb()">Theek hai Baba, Maaf kiya! ❤️</button>
+    </div>
+
+    <div id="mega-celeb">
+        <h1 style="font-size: 55px; color: var(--pink); margin: 0;">YAYYY! 🎉</h1>
+        <h2>AAB CHAL UNBLOCK KR JALDI SE</h2>
+        <p style="font-style: italic;">"OR jaldi se billi wali reel bhej de jo mene repost ki hai or tune like ki hai.<br>Stay happy always! ✨"</p>
+        <button onclick="location.reload()" style="background:#333; color:white; border:none; padding:12px 25px; border-radius:50px; margin-top:20px;">Start Again 🔄</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        const data = [
+            {y:"2023", i:"1.png", t:"Jab hum dost bane the ... naye naye 11th main! 🏫"},
+            {y:"2024", i:"2.png", t:"Wo befizool ki ladai vo reel k piche! 😗"},
+            {y:"2025", i:"3.png", t:"Wo voice note wali galti... I really regret it. 🥺"},
+            {y:"2026", i:"4.png", t:"chal chal aab maan ja! Fresh start karte hai Bauni? 🎈"}
+        ];
+
+        function startApp() {
+            if(document.getElementById('m-toggle').checked) {
+                document.body.style.background = "var(--light)";
+                goNext(2);
+                updateMem(0);
+            }
+        }
+
+        function goNext(n) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById('sec-' + n);
+            target.classList.add('active');
+        }
+
+        function updateMem(v) {
+            document.getElementById('y-val').innerText = data[v].y;
+            document.getElementById('m-img').src = data[v].i;
+            document.getElementById('m-txt').innerText = data[v].t;
+            if(v == 3) document.getElementById('to-cake').style.display = "block";
+            else document.getElementById('to-cake').style.display = "none";
+        }
+
+        function blowOut() {
+            document.getElementById('flm').style.display = 'none';
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            setTimeout(() => goNext(4), 1200);
+        }
+
+        function startInfinite() {
+            document.getElementById('sec-4').style.display = 'none';
+            document.getElementById('infinite-area').style.display = 'block';
+            for(let i=0; i<20; i++) addCard();
+            document.getElementById('infinite-area').onscroll = () => {
+                if(document.getElementById('infinite-area').scrollTop + window.innerHeight >= document.getElementById('scroll-list').offsetHeight) addCard();
+            };
+        }
+
+        function addCard() {
+            const list = document.getElementById('scroll-list');
+            const d = document.createElement('div');
+            d.style = "background:var(--light); margin:15px auto; padding:20px; width:85%; border-radius:15px; border-left:5px solid var(--pink); text-align:center;";
+            const m = ["Maaf kardo! prachi ji🙏", "I am Sorry hu Bauni 🥺", "1 week ki mehnat hai!", "bohout sorry hu bhai😭😭!", "Choti bachi ho kya? ek baar main smj nhi aata! 🧚‍♀️"];
+            d.innerText = m[Math.floor(Math.random()*m.length)];
+            list.appendChild(d);
+        }
+
+        function startMegaCeleb() {
+            document.getElementById('infinite-area').style.display = 'none';
+            document.getElementById('sec-4').style.display = 'none';
+            document.getElementById('mega-celeb').style.display = 'flex';
+            var end = Date.now() + (5 * 1000);
+            (function f() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
+                if (Date.now() < end) requestAnimationFrame(f);
+            }());
+        }
+    </script>
+</body>
+</html>
